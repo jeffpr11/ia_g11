@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid text-center">
+    <div class="row mt-5">
+        <div class="col">
+            <h1>Detector de armas</h1>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col text-center">
+            <label class="h1">→ Imagen</label>
+        </div>
+    </div>
+    <!-- <div class="row mt-2">
+        <div class="col-4"></div>
+        <div class="col-2 text-end">
+            <label class="h3">Video</label>
+        </div>
+        <div class="col">
+            <a type="button" class="btn btn-primary" href="{% url 'video' %}">→</a>
+        </div>
+        <div class="col-5"></div>
+    </div> -->
+    <form class="form-inline" method="POST" enctype="multipart/form-data" id="enviooo">
+        {% csrf_token %}
+        <div class="row mt-4 justify-content-md-center">
+            <div class="col-3">
+                {{ form.img_to_p }}
+            </div>
+            <div class="col-1">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    {% if img %}
+        <div class="row mt-4 justify-content-md-center" id="showinggg">
+            <div class="col-4">
+                <img src="data:image/png;base64, {{ img|safe }}" alt="detectado">
+            </div>
+        </div>       
+    {% endif %}
+    <div class="row mt-5 justify-content-md-center" id="spinnerrr" hidden>
+        <div class="spinner-grow mt-5 text-primary" role="status">
+            <span class="sr-only mt-5"></span>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/loader.js' %}"></script>
+{% endblock %}
