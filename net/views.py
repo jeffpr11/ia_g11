@@ -21,9 +21,6 @@ def detect(imagen):
     plotted_img = draw_rect(img_, np.array([predictions[0]])*225.0, color=[255, 0, 0])
     return (plotted_img,nombre)
 
-def index(request):
-    return render(request, 'index.html')
-
 def image(request):
     if request.method == 'POST':
         form = imgForm(request.POST, request.FILES)
@@ -36,7 +33,3 @@ def image(request):
     else:
         form = imgForm()
     return render(request, 'img.html', {'form': form})
-    
-
-def video(request):
-    return render(request, 'vid.html')
