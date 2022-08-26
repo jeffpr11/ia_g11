@@ -47,6 +47,48 @@
             <span class="sr-only mt-5"></span>
         </div>
     </div>
+    <p id="errorTxt"></p>
+    <div>
+        <video id="theVideo" controls autoplay></video>
+        <canvas id="theCanvas"></canvas>
+    </div>
+    <button id="btnCapture">Tomar foto</button>
+    <button id="btnDownloadImage">Descargar imagen</button>
+    <script type="text/javascript">
+        var videoWidth = 225;
+        var videoHeight = 225;
+        var videoTag = document.getElementById('theVideo');
+        var canvasTag = document.getElementById('theCanvas');
+        var btnCapture = document.getElementById("btnCapture");
+        var btnDownloadImage = document.getElementById("btnDownloadImage");
+        videoTag.setAttribute('width', videoWidth);
+        videoTag.setAttribute('height', videoHeight);
+        canvasTag.setAttribute('width', videoWidth);
+        canvasTag.setAttribute('height', videoHeight);
+        window.onload = () => {
+            navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: {
+                    width: videoWidth,
+                    height: videoHeight
+                }
+            }).then(stream => {
+                videoTag.srcObject = stream;
+            }).catch(e => {
+                document.getElementById('errorTxt').innerHTML = 'ERROR: ' + e.toString();
+            });
+            var canvasContext = canvasTag.getContext('2d');
+            btnCapture.addEventListener("click", () => {
+                canvasContext.drawImage(videoTag, 0, 0, videoWidth, videoHeight);
+            });
+            btnDownloadImage.addEventListener("click", () => {
+                var link = document.createElement('a');
+                link.download = 'capturedImage.png';
+                link.href = canvasTag.toDataURL();
+                link.click();
+            });
+        };
+    </script>
 </div>
 
 <script src="{% static 'js/loader.js' %}"></script>
