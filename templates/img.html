@@ -8,55 +8,62 @@
             <h1>Detector de armas</h1>
         </div>
     </div>
-    <div class="row mt-2">
-        <div class="col text-center">
-            <label class="h1">→ Imagen</label>
-        </div>
-    </div>
-    <!-- <div class="row mt-2">
-        <div class="col-4"></div>
-        <div class="col-2 text-end">
-            <label class="h3">Video</label>
-        </div>
-        <div class="col">
-            <a type="button" class="btn btn-primary" href="{% url 'video' %}">→</a>
-        </div>
-        <div class="col-5"></div>
-    </div> -->
-    <form class="form-inline" method="POST" enctype="multipart/form-data" id="enviooo">
-        {% csrf_token %}
-        <div class="row mt-4 justify-content-md-center">
-            <div class="col-3">
-                {{ form.img_to_p }}
-            </div>
-            <div class="col-1">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </form>
 
-    {% if img %}
-        <div class="row mt-4 justify-content-md-center" id="showinggg">
-            <div class="col-4">
-                <img src="data:image/png;base64, {{ img|safe }}" alt="detectado">
+    <div class="row mt-5 justify-content-md-center">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <button id="btnCapture" class="btn btn-primary">Tomar foto</button>
+                    <button id="btnDownloadImage" class="btn btn-success">Descargar imagen</button>
+                </div>
             </div>
-        </div>       
-    {% endif %}
-    <div class="row mt-5 justify-content-md-center" id="spinnerrr" hidden>
-        <div class="spinner-grow mt-5 text-primary" role="status">
-            <span class="sr-only mt-5"></span>
+            <div class="row">
+                <div class="col">
+                    <p id="errorTxt"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-2">
+                    <video id="theVideo" controls autoplay></video>
+                    <canvas id="theCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-5">
+            <form class="form-inline" method="POST" enctype="multipart/form-data" id="enviooo">
+                {% csrf_token %}
+                <div class="row ms-2">
+                    <div class="col-6">
+                        {{ form.img_to_p }}
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary">Detectar</button>
+                    </div>
+                </div>
+            </form>
+
+            {% if img %}
+            <div class="row mt-4 " id="showinggg">
+                <div class="col-4">
+                    <img src="data:image/png;base64, {{ img|safe }}" alt="detectado">
+                </div>
+            </div>
+            {% endif %}
+            <div class="row mt-5" id="spinnerrr" hidden>
+                <div class="row">
+                    <div class="col-10">
+                        <div class="spinner-grow mt-5 text-primary" role="status">
+                            <span class="sr-only mt-5"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <p id="errorTxt"></p>
-    <div>
-        <video id="theVideo" controls autoplay></video>
-        <canvas id="theCanvas"></canvas>
-    </div>
-    <button id="btnCapture">Tomar foto</button>
-    <button id="btnDownloadImage">Descargar imagen</button>
+
     <script type="text/javascript">
-        var videoWidth = 225;
-        var videoHeight = 225;
+        var videoWidth = 390;
+        var videoHeight = 390;
         var videoTag = document.getElementById('theVideo');
         var canvasTag = document.getElementById('theCanvas');
         var btnCapture = document.getElementById("btnCapture");
